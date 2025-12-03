@@ -16,7 +16,7 @@ timezone:
 
 title: 0xkagecrypt # the main title
 
-tagline: Personal blog documenting my journey into Web3 security research from scratch. # it will display as the subtitle
+tagline: "Documenting my journey into Web3 security research from scratch."
 
 description: >- # used by seo meta and the atom feed
  Personal blog documenting my journey into Web3 security research from scratch:- smart contract auditing, DeFi exploits, and daily progress logs.
