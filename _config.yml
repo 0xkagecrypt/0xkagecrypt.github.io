@@ -19,7 +19,7 @@ title: 0xkagecrypt # the main title
 tagline:  Documenting my journey into Web3 security research from scratch. # it will display as the subtitle
 
 description: >- # used by seo meta and the atom feed
-Technical log of Web3 smart contract security research- protocol reviews, exploit PoCs, and audit-ready notes.
+Web3 security research notebook documenting exploits and auditing methodology for modern DeFi protocols
 # Fill in the protocol & hostname for your site.
 # E.g. 'https://username.github.io', note that it does not end with a '/'.
 url: ""
