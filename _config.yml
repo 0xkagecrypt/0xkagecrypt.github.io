@@ -16,7 +16,7 @@ timezone:
 
 title: 0xkagecrypt # the main title
 
-tagline:  " Documenting my journey into Web3 security research from scratch. # it will display as the subtitle"
+tagline:  " Documenting my journey into Web3 security research from scratch."
 
 description: >- 
 Web3 security research notebook documenting exploits and auditing methodology for modern DeFi protocols.
