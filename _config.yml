@@ -16,10 +16,11 @@ timezone:
 
 title: 0xkagecrypt # the main title
 
-tagline:  " Documenting my journey into Web3 security research from scratch."
+tagline: Personal blog documenting my journey into Web3 security research from scratch. # it will display as the subtitle
 
-description: >- 
-Web3 security research notebook documenting exploits and auditing methodology for modern DeFi protocols.
+description: >- # used by seo meta and the atom feed
+ Personal blog documenting my journey into Web3 security research from scratch:- smart contract auditing, DeFi exploits, and daily progress logs.
+
 # Fill in the protocol & hostname for your site.
 # E.g. 'https://username.github.io', note that it does not end with a '/'.
 url: ""
@@ -37,7 +38,7 @@ social:
   email: 0xkagecrypt@gmail.com # change to your email address
   links:
     # The first element serves as the copyright owner's link
-    - https://x.com/_0xkagecrypt # change to your Twitter homepage
+    - https://twitter.com/_0xkagecrypt # change to your Twitter homepage
     - https://github.com/0xkagecrypt # change to your GitHub homepage
     # Uncomment below to add more social links
     # - https://www.facebook.com/username
