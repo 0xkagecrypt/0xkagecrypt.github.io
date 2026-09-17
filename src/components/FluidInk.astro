@@ -1,0 +1,144 @@
+---
+import { INK } from "../config";
+
+interface Props {
+  variant?: "hero" | "divider";
+  /** Overrides INK.strength for this instance. */
+  strength?: number;
+  /** Overrides INK.autoFlow for this instance. */
+  auto?: boolean;
+  /** Set false to render only the static gradient. */
+  enabled?: boolean;
+  /**
+   * Oversized ghost-type watermark, rendered as static background texture.
+   * The sim canvas paints fully opaque, so this sits above the canvas rather
+   * than beneath it — otherwise it would vanish the moment the simulation
+   * boots. It stays beneath `.ink__content` and out of the hit-testing path,
+   * so it reads as background in both the animated and fallback states.
+   */
+  wordmark?: string;
+}
+
+const {
+  variant = "hero",
+  strength = INK.strength,
+  auto = INK.autoFlow,
+  enabled = true,
+  wordmark,
+} = Astro.props;
+---
+
+<div class:list={["ink", `ink--${variant}`]}>
+  {/* Painted first, and stays visible whenever the simulation declines to
+      start — no WebGL2, or the visitor prefers reduced motion. */}
+  <div class="ink__fallback" aria-hidden="true"></div>
+
+  {
+    enabled && (
+      <fluid-ink
+        class="ink__sim"
+        data-strength={String(strength)}
+        data-auto={auto ? "1" : "0"}
+        aria-hidden="true"
+      />
+    )
+  }
+
+  {wordmark && <p class="ink__wordmark" aria-hidden="true">{wordmark}</p>}
+
+  <div class="ink__content">
+    <slot />
+  </div>
+</div>
+
+{enabled && <script>import "../scripts/fluid-ink";</script>}
+
+<style>
+  .ink {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--ink-canvas-bg);
+  }
+
+  .ink--hero {
+    min-height: min(100svh, 46rem);
+  }
+
+  .ink--divider {
+    height: 15rem;
+  }
+
+  .ink__fallback {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background:
+      radial-gradient(
+        58% 46% at 46% 42%,
+        color-mix(in oklab, var(--ink-pigment) 34%, transparent),
+        transparent 72%
+      ),
+      radial-gradient(
+        34% 30% at 66% 62%,
+        color-mix(in oklab, var(--ink-accent) 16%, transparent),
+        transparent 70%
+      ),
+      radial-gradient(
+        40% 34% at 28% 66%,
+        color-mix(in oklab, var(--ink-pigment) 18%, transparent),
+        transparent 72%
+      );
+  }
+
+  .ink__sim {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: block;
+  }
+
+  /* Oversized static watermark. Sits above the (opaque) sim canvas so it
+     reads consistently whether or not the simulation is actually running,
+     but strictly below `.ink__content` and out of the hit-testing path —
+     it never competes with the real heading or the ink interaction. */
+  .ink__wordmark {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    overflow: hidden;
+    font-family: var(--font-mono);
+    font-size: clamp(5rem, 21vw, 19rem);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: var(--tracking-hero);
+    white-space: nowrap;
+    color: var(--color-fg);
+    opacity: 0.06;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* Grows to fill the band so that anything positioned against its edges lands
+     on the edge of the ink rather than the edge of the text inside it. */
+  .ink__content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    /* Let the cursor reach the simulation; children opt back in. */
+    pointer-events: none;
+  }
+
+  .ink__content :global(a),
+  .ink__content :global(button) {
+    pointer-events: auto;
+  }
+</style>
