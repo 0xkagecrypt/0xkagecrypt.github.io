@@ -25,7 +25,12 @@ jobs:
           node-version: 24
           cache: npm
 
-      - run: npm ci
+      # npm ci refuses to run when the lockfile's optional-dependency subtree
+      # doesn't match the current platform (e.g. sharp/resvg's emnapi/WASM
+      # fallback packages resolve differently on Linux vs. macOS), so this
+      # uses npm install instead of requiring the lockfile to have been
+      # generated on the same OS as CI.
+      - run: npm install
 
       - name: Build
         run: npm run build
